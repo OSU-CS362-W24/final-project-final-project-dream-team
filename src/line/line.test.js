@@ -101,7 +101,7 @@ test("When a user clicks the plus button, the values the user already entered ar
 
 })
 
-test("When a user clicks the generate chart button without entering a label for x, an error message is displayed", async function() {
+test("When a user clicks the generate chart button without entering a label for x or y and without entering any data, an error message is displayed", async function() {
     // Arrange:
     initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
 
@@ -119,5 +119,6 @@ test("When a user clicks the generate chart button without entering a label for 
     mockAlert.mockRestore()
 
 })
+
 
 //const xLabel = domTesting.getByLabelText(document, 'X label')

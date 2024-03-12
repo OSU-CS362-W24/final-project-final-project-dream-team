@@ -27,7 +27,6 @@ test("When a user clicks the plus button, a new input box appears", async functi
     const plusButton = domTesting.getByText(document, "+")
     
     const initialInputCount = domTesting.getAllByLabelText(document, "X").length
-    console.log(initialInputCount)
     // Act:
     const user = userEvent.setup()
     await user.click(plusButton)
@@ -38,5 +37,41 @@ test("When a user clicks the plus button, a new input box appears", async functi
         return newInputCount
     })
     expect(newInputCount).toBe(initialInputCount + 1)
+
+})
+
+test("When a user clicks the plus button, the values the user already entered are not impacted ", async function() {
+    // Arrange:
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
+
+    
+    // Acquire the input field
+    const plusButton = domTesting.getByText(document, "+")
+    
+    const initialXValues = domTesting.getAllByLabelText(document, "X")
+    const initialYValues = domTesting.getAllByLabelText(document, "Y")
+
+    // Get the values before user interaction
+    const initialXValuesText = initialXValues.map(input => input.value)
+    const initialYValuesText = initialYValues.map(input => input.value)
+
+    // Act:
+    const user = userEvent.setup()
+    await user.type(initialXValues[0], "4")
+    await user.type(initialYValues[0], "2")
+    await user.click(plusButton)
+
+    // Assert:
+    await domTesting.waitFor(() => {
+        newXValues = domTesting.getAllByLabelText(document, "X")
+        newYValues = domTesting.getAllByLabelText(document, "Y")
+        return newXValues && newYValues
+    })
+    const newXValuesText = newXValues.map(input => input.value)
+    const newYValuesText = newYValues.map(input => input.value)
+
+    // Check if the new values match the initial values
+    expect(newXValuesText).toEqual(expect.arrayContaining(initialXValuesText))
+    expect(newYValuesText).toEqual(expect.arrayContaining(initialYValuesText))
 
 })

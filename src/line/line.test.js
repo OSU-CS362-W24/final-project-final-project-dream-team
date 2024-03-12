@@ -40,6 +40,31 @@ test("When a user clicks the plus button, a new input box appears", async functi
 
 })
 
+test("When a user clicks the plus button five times, five new input boxes appear", async function() {
+    // Arrange:
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
+    
+    // Acquire the input field
+    const plusButton = domTesting.getByText(document, "+")
+    
+    const initialInputCount = domTesting.getAllByLabelText(document, "X").length
+    // Act:
+    const user = userEvent.setup()
+    await user.click(plusButton)
+    await user.click(plusButton)
+    await user.click(plusButton)
+    await user.click(plusButton)
+    await user.click(plusButton)
+
+    // Assert:
+    await domTesting.waitFor(() => {
+        newInputCount = domTesting.getAllByLabelText(document, "X").length
+        return newInputCount
+    })
+    expect(newInputCount).toBe(initialInputCount + 5)
+
+})
+
 test("When a user clicks the plus button, the values the user already entered are not impacted ", async function() {
     // Arrange:
     initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
@@ -75,3 +100,24 @@ test("When a user clicks the plus button, the values the user already entered ar
     expect(newYValuesText).toEqual(expect.arrayContaining(initialYValuesText))
 
 })
+
+test("When a user clicks the generate chart button without entering a label for x, an error message is displayed", async function() {
+    // Arrange:
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
+
+    const mockAlert = jest.spyOn(window, 'alert').mockImplementation(() => {})
+
+    // Acquire the input field
+    const generateChart = domTesting.getByText(document, 'Generate chart')
+
+    // Act:
+    const user = userEvent.setup()
+    await user.click(generateChart)
+
+    // Assert:
+    expect(mockAlert).toHaveBeenCalledTimes(1)
+    mockAlert.mockRestore()
+
+})
+
+//const xLabel = domTesting.getByLabelText(document, 'X label')

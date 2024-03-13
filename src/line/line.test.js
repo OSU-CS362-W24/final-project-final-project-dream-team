@@ -120,5 +120,25 @@ test("When a user clicks the generate chart button without entering a label for 
 
 })
 
+test("When a user clicks the generate chart button after only providing a Y label, an error message is displayed", async function() {
+    // Arrange:
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
+
+    const mockAlert = jest.spyOn(window, 'alert').mockImplementation(() => {})
+
+    // Acquire the input field
+    const generateChart = domTesting.getByText(document, 'Generate chart')
+    const yLabel = domTesting.getByLabelText(document, 'Y label')
+
+    // Act:
+    const user = userEvent.setup()
+    await user.type(yLabel, 'Speed')
+    await user.click(generateChart)
+
+    // Assert:
+    expect(mockAlert).toHaveBeenCalledTimes(1)
+    mockAlert.mockRestore()
+
+})
 
 //const xLabel = domTesting.getByLabelText(document, 'X label')

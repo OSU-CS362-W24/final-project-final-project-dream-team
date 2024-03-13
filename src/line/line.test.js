@@ -185,4 +185,36 @@ test("When a user clicks the generate chart button without providing data, an er
 
 })
 
+test("When a user clicks the generate chart button without x and y labels but provides data, an error message is displayed", async function() {
+    // Arrange:
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
+
+    const mockAlert = jest.spyOn(window, 'alert').mockImplementation(() => {})
+    
+    // Acquire the input field
+    const plusButton = domTesting.getByText(document, "+")
+    const generateChart = domTesting.getByText(document, 'Generate chart')
+    const Xvalues = domTesting.getAllByLabelText(document, "X")
+    const Yvalues = domTesting.getAllByLabelText(document, "Y")
+
+
+    // Act:
+    const user = userEvent.setup()
+    await user.type(Xvalues[0], '4')
+    await user.type(Yvalues[0], '3')
+    await user.click(plusButton)
+    await user.type(Xvalues[1], '5')
+    await user.type(Yvalues[1], '5')
+    await user.click(plusButton)
+    await user.type(Xvalues[1], '10')
+    await user.type(Yvalues[1], '15')
+
+    await user.click(generateChart)
+
+    // Assert:
+    expect(mockAlert).toHaveBeenCalledTimes(1)
+    mockAlert.mockRestore()
+
+})
+
 //const xLabel = domTesting.getByLabelText(document, 'X label')

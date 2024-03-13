@@ -12,15 +12,13 @@ describe('Check chart pages', () => {
     cy.findByTestId('y-label-input').type('Points 2');
 
    // Add points 
-   // Select the element with class .x-value-input
-   cy.get('.x-value-input').type('1'); 
-   cy.get('.y-value-input').type('2');
+    cy.findByTestId('x-input-1').type('1'); 
+    cy.findByTestId('y-input-1').type('2');
 
-   // Click the "+" button to add more points
-   cy.contains('+').click();
-   // Select 2nd input window to input points
-   cy.get('.x-value-input').eq(1).type('3');
-   cy.get('.y-value-input').eq(1).type('4');
+    // Click the "+" button to add more points
+    cy.contains('+').click();
+    cy.findByTestId('x-input-2').type('3');
+    cy.findByTestId('y-input-2').type('4');
 
     // Generate chart
     cy.findByRole('button', { name: 'Generate chart' }).click();
@@ -34,39 +32,32 @@ describe('Check chart pages', () => {
 
     cy.contains('Line').click();
 
-    // Set chart details
     cy.findByTestId('chart-title-input').type('Test Chart');
     cy.findByTestId('x-label-input').type('Points 1');
     cy.findByTestId('y-label-input').type('Points 2');
 
-   // Add points 
-   // Select the element with class .x-value-input
-   cy.get('.x-value-input').type('1'); 
-   cy.get('.y-value-input').type('2');
+    cy.findByTestId('x-input-1').type('1'); 
+    cy.findByTestId('y-input-1').type('2');
 
-   // Click the "+" button to add more points
-   cy.contains('+').click();
-   // Select 2nd input window to input points
-   cy.get('.x-value-input').eq(1).type('3');
-   cy.get('.y-value-input').eq(1).type('4');
+    cy.contains('+').click();
+    cy.findByTestId('x-input-2').type('3');
+    cy.findByTestId('y-input-2').type('4');
 
-   // Click Scatter link
-  cy.contains('Scatter').click();
+    cy.contains('Scatter').click();
 
-  // Verify individual data points after navigating to Scatter
-  cy.get('.x-value-input').eq(0).should('have.value', '1');
-  cy.get('.y-value-input').eq(0).should('have.value', '2');
-  cy.get('.x-value-input').eq(1).should('have.value', '3');
-  cy.get('.y-value-input').eq(1).should('have.value', '4');
+    // Verify individual data points after navigating to Scatter
+    cy.findByTestId('x-input-1').should('have.value', '1');
+    cy.findByTestId('y-input-1').should('have.value', '2');
+    cy.findByTestId('x-input-2').should('have.value', '3');
+    cy.findByTestId('y-input-2').should('have.value', '4');
 
-  // Click Bar link
-  cy.contains('Bar').click();
+    cy.contains('Bar').click();
 
-  // Verify individual data points after navigating to Bar
-  cy.get('.x-value-input').eq(0).should('have.value', '1');
-  cy.get('.y-value-input').eq(0).should('have.value', '2');
-  cy.get('.x-value-input').eq(1).should('have.value', '3');
-  cy.get('.y-value-input').eq(1).should('have.value', '4');
+    // Verify individual data points after navigating to Bar
+    cy.findByTestId('x-input-1').should('have.value', '1');
+    cy.findByTestId('y-input-1').should('have.value', '2');
+    cy.findByTestId('x-input-2').should('have.value', '3');
+    cy.findByTestId('y-input-2').should('have.value', '4');
   });
 
   it('Saving Chart', () => {
@@ -74,23 +65,17 @@ describe('Check chart pages', () => {
 
     cy.contains('Line').click();
 
-    // Set chart details
     cy.findByTestId('chart-title-input').type('Test Chart');
     cy.findByTestId('x-label-input').type('Points 1');
     cy.findByTestId('y-label-input').type('Points 2');
 
-   // Add points 
-   // Select the element with class .x-value-input
-   cy.get('.x-value-input').type('1'); 
-   cy.get('.y-value-input').type('2');
+    cy.findByTestId('x-input-1').type('1'); 
+    cy.findByTestId('y-input-1').type('2');
 
-   // Click the "+" button to add more points
-   cy.contains('+').click();
-   // Select 2nd input window to input points
-   cy.get('.x-value-input').eq(1).type('3');
-   cy.get('.y-value-input').eq(1).type('4');
+    cy.contains('+').click();
+    cy.findByTestId('x-input-2').type('3');
+    cy.findByTestId('y-input-2').type('4');
 
-    // Generate chart
     cy.findByRole('button', { name: 'Generate chart' }).click();
     cy.findByRole('button', { name: 'Save chart' }).click();
     
@@ -105,23 +90,17 @@ describe('Check chart pages', () => {
 
     cy.contains('Line').click();
 
-    // Set chart details
     cy.findByTestId('chart-title-input').type('Test Chart');
     cy.findByTestId('x-label-input').type('Points 1');
     cy.findByTestId('y-label-input').type('Points 2');
 
-   // Add points 
-   // Select the element with class .x-value-input
-   cy.get('.x-value-input').type('1'); 
-   cy.get('.y-value-input').type('2');
+    cy.findByTestId('x-input-1').type('1'); 
+    cy.findByTestId('y-input-1').type('2');
 
-   // Click the "+" button to add more points
-   cy.contains('+').click();
-   // Select 2nd input window to input points
-   cy.get('.x-value-input').eq(1).type('3');
-   cy.get('.y-value-input').eq(1).type('4');
+    cy.contains('+').click();
+    cy.findByTestId('x-input-2').type('3');
+    cy.findByTestId('y-input-2').type('4');
 
-    // Generate chart
     cy.findByRole('button', { name: 'Generate chart' }).click();
     cy.findByRole('button', { name: 'Save chart' }).click();
     

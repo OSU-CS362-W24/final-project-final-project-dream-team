@@ -200,14 +200,14 @@ module.exports = function runChartBuilder(type) {
      *   indicates whether the input field being generated will be used for an
      *   X value or for a Y value.
      */
-    function generateXYInput(xOrY) {
-        const lowerXOrY = xOrY.toLowerCase()
-        const upperXOrY = xOrY.toUpperCase()
-        const labelElem = document.createElement("label")
-        labelElem.classList.add(`${lowerXOrY}-value`)
-        const inputType = (type === "bar" && lowerXOrY === "x") ? "" : "type='number'"
-        labelElem.innerHTML = `${upperXOrY} <input ${inputType} class="${lowerXOrY}-value-input" />`
-        return labelElem
+    function generateXYInput(xOrY, index) {
+        const lowerXOrY = xOrY.toLowerCase();
+        const upperXOrY = xOrY.toUpperCase();
+        const labelElem = document.createElement("label");
+        labelElem.classList.add(`${lowerXOrY}-value`);
+        const inputType = (type === "bar" && lowerXOrY === "x") ? "" : "type='number'";
+        labelElem.innerHTML = `${upperXOrY} <input ${inputType} class="${lowerXOrY}-value-input" data-testid="${lowerXOrY}-input-${index}"/>`;
+        return labelElem;
     }
 
     /*
@@ -215,9 +215,10 @@ module.exports = function runChartBuilder(type) {
      * value input fields.
      */
     function insertXYInputPair() {
-        const xInput = generateXYInput("x")
-        const yInput = generateXYInput("y")
-        xyDataGrid && xyDataGrid.append(xInput, yInput)
+        const index = xValueInputs.length + 1; // Calculate the index
+        const xInput = generateXYInput("x", index);
+        const yInput = generateXYInput("y", index); 
+        xyDataGrid && xyDataGrid.append(xInput, yInput);
     }
 
     /*

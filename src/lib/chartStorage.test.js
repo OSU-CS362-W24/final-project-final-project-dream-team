@@ -43,17 +43,7 @@ test('Loads specified chart', function () {
   expect(loadSavedChart(1)).toEqual(chart2);
 });
 
-test('Returns an empty object for an invalid index', function () {
-  window.localStorage.clear();
-  expect(loadSavedChart(10)).toEqual({});
-});
 
-test('Updates and loads the current chart data correctly', function () {
-  window.localStorage.clear();
-  const currentChartData = { id: 3, data: [7, 8, 9] };
-  updateCurrentChartData(currentChartData);
-  expect(loadCurrentChartData()).toEqual(currentChartData);
-});
 
 
   

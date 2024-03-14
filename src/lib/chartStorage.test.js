@@ -43,7 +43,11 @@ test('Loads specified chart', function () {
   expect(loadSavedChart(1)).toEqual(chart2);
 });
 
-
+test('Updates and loads the current chart data correctly', function () {
+  const currentChartData = { id: 3, data: [7, 8, 9] };
+  updateCurrentChartData(currentChartData);
+  expect(loadCurrentChartData()).toEqual(currentChartData);
+});
 
 
 

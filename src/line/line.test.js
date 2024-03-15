@@ -1,3 +1,6 @@
+/**
+* @jest-environment jsdom
+*/
 const fs = require("fs");
 require("@testing-library/jest-dom");
 const { getByText, getByLabelText, waitFor } = require("@testing-library/dom");

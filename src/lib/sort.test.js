@@ -1,6 +1,7 @@
-//arrange
+
 const sortPoints = require('./sortPoints.js')
 test('sorts an array based on the ascending order of the x values recieved', ()=>{
+    //arrange
     const trialpoints = [
         { x:2, y:4 },
         {x:1,  y:5 },
@@ -17,6 +18,7 @@ test('sorts an array based on the ascending order of the x values recieved', ()=
     ]);
 });
 test('sorts an array based on the ascending order but now of very high x values', ()=>{
+    //arrange
     const trialpoints = [
         { x:2001, y:4 },
         {x:100000,  y:5 },
@@ -33,6 +35,7 @@ test('sorts an array based on the ascending order but now of very high x values'
     ]);
 });
 test('sorting out same x values same array should be recived', ()=>{
+    //arrange
     const trialpoints = [
         { x:2, y:9 },
         {x:2,  y:5 },
@@ -49,6 +52,7 @@ test('sorting out same x values same array should be recived', ()=>{
     ]);
 });
 test('tesing out sorting in ascending order when negative numbers are in the array ', ()=>{
+    //arrange
     const trialpoints = [
         { x:-2, y:4 },
         {x:1,  y:5 },
@@ -65,6 +69,7 @@ test('tesing out sorting in ascending order when negative numbers are in the arr
     ]);
 });
 test('tesing out sorting in ascending order when all values in the array have the same x values ', ()=>{
+    //arrange
     const trialpoints = [
         { x:1, y:4 },
         {x:1,  y:5 },
@@ -81,6 +86,7 @@ test('tesing out sorting in ascending order when all values in the array have th
     ]);
 });
 test('tesing out sorting in ascending order when the array is completely empty', ()=>{
+    //arrange
     const trialpoints = [];
     // act
     const sortedxvalues = sortPoints(trialpoints);

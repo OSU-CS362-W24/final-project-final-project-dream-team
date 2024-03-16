@@ -4,7 +4,7 @@ const fetch = require("whatwg-fetch");
 global.URL.createObjectURL = jest.fn();
 test('generates a URL when a request for a line chart is sent to the api', async ()=>{
     URL.createObjectURL.mockReturnValue('blob:mocked URL');
-
+   //arrnage
     const trialpoints = [
         { x:2, y:4 },
         {x:1,  y:5 },
@@ -15,14 +15,15 @@ test('generates a URL when a request for a line chart is sent to the api', async
     const yLabel= 'Y axis';
     const title=  'My first line chart';
     const color = 'red';
-
+    //act
     const url = await generateChartImg('line', trialpoints, xLabel, yLabel, title, color);
+    //assert
     expect(url).toBeTruthy();
     expect(url).toContain('blob:');
 }); 
 test('generates a Blolb URL when a request for a bar chart is sent to the api', async ()=>{
     URL.createObjectURL.mockReturnValue('blob:mocked URL');
-
+    //arrange
     const trialpoints = [
         { x:2, y:4 },
         {x:1,  y:5 },
@@ -33,14 +34,15 @@ test('generates a Blolb URL when a request for a bar chart is sent to the api', 
     const yLabel= 'Y axis';
     const title=  'My first bar chart';
     const color = 'green';
-
+    //act
     const url = await generateChartImg('bar', trialpoints, xLabel, yLabel, title, color);
+    //assert
     expect(url).toBeTruthy();
     expect(url).toContain('blob:');
 }); 
 test('generates a URL using blobs data when a request for a scatter chart is sent to the api', async ()=>{
     URL.createObjectURL.mockReturnValue('blob:mocked URL');
-
+    //arrange
     const trialpoints = [
         { x:2, y:4 },
         {x:1,  y:5 },
@@ -51,27 +53,29 @@ test('generates a URL using blobs data when a request for a scatter chart is sen
     const yLabel= 'Y axis';
     const title=  'My first scatter chart';
     const color = 'yellow';
-
+    //act
     const url = await generateChartImg('scatter', trialpoints, xLabel, yLabel, title, color);
+    //assert
     expect(url).toBeTruthy();
     expect(url).toContain('blob:');
 }); 
 test('generates a URL using blobs data when a request for a scatter chart is sent to the api with null values', async ()=>{
     URL.createObjectURL.mockReturnValue('blob:mocked URL');
-
+    //arrange
     const trialpoints = [];
     const xLabel= 'X axis';
     const yLabel= 'Y axis';
     const title=  'My first scatter chart';
     const color = 'yellow';
-
+    //act
     const url = await generateChartImg('scatter', trialpoints, xLabel, yLabel, title, color);
+    //assert
     expect(url).toBeTruthy();
     expect(url).toContain('blob:');
 }); 
 test('generates a URL using blobs data which is negative when a request for a scatter chart is sent to the api', async ()=>{
     URL.createObjectURL.mockReturnValue('blob:mocked URL');
-
+   //arrange
     const trialpoints = [
         { x:-12, y:4 },
         {x:100,  y:5 },
@@ -82,14 +86,15 @@ test('generates a URL using blobs data which is negative when a request for a sc
     const yLabel= 'Y axis';
     const title=  'My first scatter chart';
     const color = 'yellow';
-
+    //act
     const url = await generateChartImg('scatter', trialpoints, xLabel, yLabel, title, color);
+    //assert
     expect(url).toBeTruthy();
     expect(url).toContain('blob:');
 }); 
 test('generates a URL using blobs data when a request for a scatter chart is sent to the api', async ()=>{
     URL.createObjectURL.mockReturnValue('blob:mocked URL');
-
+    //arrange
     const trialpoints = [
         { x:2.6, y:4 },
         {x:1,  y:5 },
@@ -100,8 +105,9 @@ test('generates a URL using blobs data when a request for a scatter chart is sen
     const yLabel= 'Y axis';
     const title=  'My first scatter chart';
     const color = 'yellow';
-
+    //act
     const url = await generateChartImg('scatter', trialpoints, xLabel, yLabel, title, color);
+    //assert
     expect(url).toBeTruthy();
     expect(url).toContain('blob:');
 }); 

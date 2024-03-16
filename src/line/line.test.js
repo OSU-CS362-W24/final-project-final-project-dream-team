@@ -8,6 +8,7 @@ require("@testing-library/jest-dom")
 const domTesting = require("@testing-library/dom")
 const userEvent =require("@testing-library/user-event").default
 
+
 function initDomFromFiles(htmlPath, jsPath) {
 	const html = fs.readFileSync(htmlPath, 'utf8')
 	document.open()
@@ -205,9 +206,6 @@ test("When a user clicks the generate chart button without x and y labels but pr
     await user.click(plusButton)
     await user.type(Xvalues[1], '5')
     await user.type(Yvalues[1], '5')
-    await user.click(plusButton)
-    await user.type(Xvalues[1], '10')
-    await user.type(Yvalues[1], '15')
 
     await user.click(generateChart)
 
@@ -217,3 +215,45 @@ test("When a user clicks the generate chart button without x and y labels but pr
 
 })
 
+
+
+test("Clear chart button clears all chart data", async function() {
+
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`);
+
+    const user = userEvent.setup();
+    const chartTitleInput = domTesting.getByLabelText(document, "Chart title");
+    const xLabelInput = domTesting.getByLabelText(document, "X label");
+    const yLabelInput = domTesting.getByLabelText(document, "Y label");
+    const clearChartBtn = domTesting.getByText(document, "Clear chart data");
+    const xValueInputs = domTesting.getAllByLabelText(document, "X");
+    const yValueInputs = domTesting.getAllByLabelText(document, "Y");
+
+    //Act
+    await user.type(chartTitleInput, "Test Chart Title");
+    await user.type(xLabelInput, "Test X Label");
+    await user.type(yLabelInput, "Test Y Label");
+    await user.type(xValueInputs[0], "1");
+    await user.type(yValueInputs[0], "100");
+    await user.click(clearChartBtn);
+
+    await domTesting.waitFor(() => {
+        XValues = domTesting.getAllByLabelText(document, "X")
+        YValues = domTesting.getAllByLabelText(document, "Y")
+        return XValues && YValues
+    })
+
+    const XValuesText = XValues.map(input => input.value)
+    const YValuesText = YValues.map(input => input.value)
+    
+
+    //Assert
+    await domTesting.waitFor(function () {
+        expect(chartTitleInput.value).toBe("");
+        expect(xLabelInput.value).toBe("");
+        expect(yLabelInput.value).toBe("");
+        expect(XValuesText).toEqual([""]);
+        expect(YValuesText).toEqual([""]); 
+    });
+    
+});

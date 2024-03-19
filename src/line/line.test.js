@@ -4,11 +4,12 @@
 
 const fs = require("fs")
 
+//Import testing libraries
 require("@testing-library/jest-dom")
 const domTesting = require("@testing-library/dom")
 const userEvent =require("@testing-library/user-event").default
 
-
+//Initializes DOM from HTML and JS files
 function initDomFromFiles(htmlPath, jsPath) {
 	const html = fs.readFileSync(htmlPath, 'utf8')
 	document.open()
@@ -20,6 +21,7 @@ function initDomFromFiles(htmlPath, jsPath) {
 	})
 }
 
+//Reset modules and mocks before each test
 beforeEach(function() {
     jest.resetModules()
     jest.restoreAllMocks()
@@ -261,7 +263,7 @@ test("Clear chart button clears all chart data", async function() {
     
 });
 
-test("generateChartImg() is called when generate chart is clicked with chart data", async function(){
+test("generateChartImg() is called when generate chart is clicked with chart data and correct image url is returned", async function(){
 
     jest.mock("../lib/generateChartImg.js")
     const generateChartImgStub = require("../lib/generateChartImg")

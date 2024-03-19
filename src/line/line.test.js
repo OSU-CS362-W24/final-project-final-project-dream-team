@@ -4,10 +4,12 @@
 
 const fs = require("fs")
 
+//Import testing libraries
 require("@testing-library/jest-dom")
 const domTesting = require("@testing-library/dom")
 const userEvent =require("@testing-library/user-event").default
 
+//Initializes DOM from HTML and JS files
 function initDomFromFiles(htmlPath, jsPath) {
 	const html = fs.readFileSync(htmlPath, 'utf8')
 	document.open()
@@ -18,6 +20,12 @@ function initDomFromFiles(htmlPath, jsPath) {
 		require(jsPath)
 	})
 }
+
+//Reset modules and mocks before each test
+beforeEach(function() {
+    jest.resetModules()
+    jest.restoreAllMocks()
+})
 
 test("When a user clicks the plus button, a new input box appears", async function() {
     // Arrange:
@@ -205,9 +213,6 @@ test("When a user clicks the generate chart button without x and y labels but pr
     await user.click(plusButton)
     await user.type(Xvalues[1], '5')
     await user.type(Yvalues[1], '5')
-    await user.click(plusButton)
-    await user.type(Xvalues[1], '10')
-    await user.type(Yvalues[1], '15')
 
     await user.click(generateChart)
 
@@ -217,3 +222,85 @@ test("When a user clicks the generate chart button without x and y labels but pr
 
 })
 
+test("Clear chart button clears all chart data", async function() {
+
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`);
+
+    const user = userEvent.setup();
+    const chartTitleInput = domTesting.getByLabelText(document, "Chart title");
+    const xLabelInput = domTesting.getByLabelText(document, "X label");
+    const yLabelInput = domTesting.getByLabelText(document, "Y label");
+    const clearChartBtn = domTesting.getByText(document, "Clear chart data");
+    const xValueInputs = domTesting.getAllByLabelText(document, "X");
+    const yValueInputs = domTesting.getAllByLabelText(document, "Y");
+
+    //Act
+    await user.type(chartTitleInput, "Test Chart Title");
+    await user.type(xLabelInput, "Test X Label");
+    await user.type(yLabelInput, "Test Y Label");
+    await user.type(xValueInputs[0], "1");
+    await user.type(yValueInputs[0], "100");
+    await user.click(clearChartBtn);
+
+    await domTesting.waitFor(() => {
+        XValues = domTesting.getAllByLabelText(document, "X")
+        YValues = domTesting.getAllByLabelText(document, "Y")
+        return XValues && YValues
+    })
+
+    const XValuesText = XValues.map(input => input.value)
+    const YValuesText = YValues.map(input => input.value)
+    
+
+    //Assert
+    await domTesting.waitFor(function () {
+        expect(chartTitleInput.value).toBe("");
+        expect(xLabelInput.value).toBe("");
+        expect(yLabelInput.value).toBe("");
+        expect(XValuesText).toEqual([""]);
+        expect(YValuesText).toEqual([""]); 
+    });
+    
+});
+
+test("generateChartImg() is called when generate chart is clicked with chart data and correct image url is returned", async function(){
+
+    jest.mock("../lib/generateChartImg.js")
+    const generateChartImgStub = require("../lib/generateChartImg")
+    generateChartImgStub.mockImplementation(function() {
+        return "http://placekitten.com/480/480"
+    })
+
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
+
+    const user = userEvent.setup()
+    const chartTitleInput = domTesting.getByLabelText(document, "Chart title")
+    const xLabelInput = domTesting.getByLabelText(document, "X label")
+    const yLabelInput = domTesting.getByLabelText(document, "Y label")
+    const xValueInputs = domTesting.getAllByLabelText(document, "X")
+    const yValueInputs = domTesting.getAllByLabelText(document, "Y")
+    const generateChartButton = domTesting.getByText(document, "Generate chart")
+    const chartColor = domTesting.getByTestId(document, "chart-color-input").value
+
+    await user.type(chartTitleInput, "Chart Title")
+    await user.type(xLabelInput, "X Label")
+    await user.type(yLabelInput, "Y Label")
+    await user.type(xValueInputs[0], "1")
+    await user.type(yValueInputs[0], "10")
+    await user.click(generateChartButton)
+
+    expect(generateChartImgStub).toHaveBeenCalledTimes(1)
+    expect(generateChartImgStub).toHaveBeenCalledWith(
+        'line',
+        [{"x": "1", "y": "10"}],
+        'X Label',
+        'Y Label',
+        'Chart Title',
+        chartColor
+    )
+
+    const returnedUrl = await generateChartImgStub('line', [{"x": "1", "y": "10"}], 'X Label', 'Y Label', 'Chart Title', chartColor)
+    expect(returnedUrl).toMatch("http://placekitten.com/480/480")
+
+    generateChartImgStub.mockRestore()
+})

@@ -1,0 +1,29 @@
+name: Continuous-Deployment
+
+#triggered with push
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    #sets up Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '21'
+
+    - name: Install dependencies and run build
+      run: npm ci
+      run: npm run build
+
+    - name: Deploy-Pages
+      uses: actions/configure-pages@v3
+      uses: actions/deploy-pages@v2
+      # with:
+      #   branch: 
+      #   folder: 

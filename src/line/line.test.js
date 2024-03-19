@@ -280,7 +280,7 @@ test("generateChartImg() is called when generate chart is clicked with chart dat
     const xValueInputs = domTesting.getAllByLabelText(document, "X")
     const yValueInputs = domTesting.getAllByLabelText(document, "Y")
     const generateChartButton = domTesting.getByText(document, "Generate chart")
-    const chartColor = document.getElementById("chart-color-input").value
+    const chartColor = domTesting.getByTestId(document, "chart-color-input").value
 
     await user.type(chartTitleInput, "Chart Title")
     await user.type(xLabelInput, "X Label")

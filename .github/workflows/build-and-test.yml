@@ -20,7 +20,7 @@ jobs:
       - run: npm start &
       - run: npm run cy:run
       - uses: actions/upload-artifact@v3
-       - if: ${{ inputs.upload-pages-artifact }}
-        uses: actions/upload-pages-artifact@v1
+      #  - if: ${{ inputs.upload-pages-artifact }}
+      #   uses: actions/upload-pages-artifact@v1
         with:
           path: dist/

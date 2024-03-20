@@ -26,7 +26,7 @@ jobs:
       run: npm test
 
     - name: Start application
-      run: npm start
+      run: npm start &
           
     - name: Cypress test
       run: npm run cy:run

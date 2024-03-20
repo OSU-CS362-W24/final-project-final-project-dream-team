@@ -31,7 +31,38 @@
 #     - name: Cypress test
 #       run: npm run cy:run
 
-name: Build and test
+#Just like instructors
+
+# name: Build and test
+# on:
+#   workflow_call:
+#     inputs:
+#       upload-pages-artifact:
+#         type: boolean
+#         required: false
+# jobs:
+#   build-and-test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: actions/setup-node@v3
+#         with:
+#           node-version: 21
+#       - run: npm ci
+#       - run: npm run build
+#       - run: npm test
+#       - run: npm start &
+#       - run: npm run cy:run
+#       - uses: actions/upload-artifact@v3
+#       #   with:
+#       #     name: e2e-videos
+#       #     path: cypress/videos/
+#        - if: ${{ inputs.upload-pages-artifact }}
+#          uses: actions/upload-pages-artifact@v1
+#         with:
+#           path: dist/
+
+name: Continuous Integration
 on:
   workflow_call:
     inputs:
@@ -55,7 +86,7 @@ jobs:
       #   with:
       #     name: e2e-videos
       #     path: cypress/videos/
-       - if: ${{ inputs.upload-pages-artifact }}
-         uses: actions/upload-pages-artifact@v1
+      # - if: ${{ inputs.upload-pages-artifact }}
+      #   uses: actions/upload-pages-artifact@v1
         with:
           path: dist/

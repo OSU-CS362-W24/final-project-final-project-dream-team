@@ -6,7 +6,9 @@
     "build": "webpack",
     "start": "webpack serve --open",
     "cy:open": "cypress open",
-    "test": "jest"
+    "cy:run": "cypress run",
+    "test": "jest",
+    "test:e2e": "npm start && cypress run" 
   },
   "devDependencies": {
     "@testing-library/cypress": "^10.0.1",

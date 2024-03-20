@@ -52,9 +52,9 @@ jobs:
       - run: npm start &
       - run: npm run cy:run
       - uses: actions/upload-artifact@v3
-        with:
-          name: e2e-videos
-          path: cypress/videos/
+        #with:
+          #name: e2e-videos
+          #path: cypress/videos/
       - if: ${{ inputs.upload-pages-artifact }}
         uses: actions/upload-pages-artifact@v1
         with:
